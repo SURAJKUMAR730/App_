@@ -5,8 +5,6 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
-  Switch,
-  useColorScheme,
 } from 'react-native';
 
 const faqs = [
@@ -33,35 +31,14 @@ const faqs = [
 ];
 
 const HelpAndFAQ = () => {
-  const systemTheme = useColorScheme(); // system default
-  const [manualTheme, setManualTheme] = useState(null); // null = system, true = dark, false = light
-  const isDark = manualTheme === null ? systemTheme === 'dark' : manualTheme;
-
   const [activeIndex, setActiveIndex] = useState(null);
-  const styles = getStyles(isDark);
 
   const toggleFAQ = (index) => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-  const toggleTheme = () => {
-    setManualTheme((prev) =>
-      prev === null ? systemTheme !== 'dark' : !prev
-    );
-  };
-
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.toggleContainer}>
-        <Text style={styles.toggleText}>Dark Mode</Text>
-        <Switch
-          value={isDark}
-          onValueChange={toggleTheme}
-          trackColor={{ false: '#ccc', true: '#2196F3' }}
-          thumbColor={isDark ? '#fff' : '#f4f3f4'}
-        />
-      </View>
-
       <Text style={styles.header}>FAQs</Text>
 
       {faqs.map((item, index) => (
@@ -78,55 +55,42 @@ const HelpAndFAQ = () => {
 
 export default HelpAndFAQ;
 
-const getStyles = (isDark) =>
-  StyleSheet.create({
-    container: {
-      flex: 1,
-      padding: 16,
-      backgroundColor: isDark ? '#0e0e0e' : '#ebebeb', // Black / Tertiary
-    },
-    toggleContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'flex-end',
-      marginBottom: 10,
-    },
-    toggleText: {
-      marginRight: 10,
-      fontSize: 16,
-      fontFamily: 'NexaBook', // or Nexa Regular
-      color: isDark ? '#fff' : '#0e0e0e',
-    },
-    header: {
-      fontSize: 26,
-      fontFamily: 'NexaBold',
-      color: '#1874ed', // Primary
-      textAlign: 'center',
-      marginBottom: 20,
-    },
-    faqBox: {
-      backgroundColor: isDark ? '#1E1E1E' : '#fff',
-      borderWidth: 1,
-      borderColor: '#1874ed', // Primary
-      borderRadius: 10,
-      padding: 14,
-      marginBottom: 15,
-      elevation: 2,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 2,
-    },
-    question: {
-      fontSize: 18,
-      fontFamily: 'NexaRegular',
-      color: '#1874ed', // Primary
-      fontWeight: 'bold',
-    },
-    answer: {
-      marginTop: 8,
-      fontSize: 16,
-      fontFamily: 'NexaLight',
-      color: isDark ? '#ccc' : '#0e0e0e', // Light gray or Black
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: '#ebebeb', // Tertiary
+  },
+  header: {
+    fontSize: 26,
+    fontFamily: 'NexaBold',
+    color: '#1874ed', // Primary
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  faqBox: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#1874ed', // Primary
+    borderRadius: 10,
+    padding: 14,
+    marginBottom: 15,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  question: {
+    fontSize: 18,
+    fontFamily: 'NexaRegular',
+    color: '#1874ed', // Primary
+    fontWeight: 'bold',
+  },
+  answer: {
+    marginTop: 8,
+    fontSize: 16,
+    fontFamily: 'NexaLight',
+    color: '#0e0e0e', // Black
+  },
+});
