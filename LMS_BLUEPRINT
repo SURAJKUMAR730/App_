@@ -1,0 +1,198 @@
+import React from "react";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from "react-native";
+
+const colors = {
+  primary: "#1874ed",
+  secondary: "#32b4db",
+  tertiary: "#ebebeb",
+  black: "#0e0e0e"
+};
+
+const courses = [
+  {
+    title: "Sign Language Basics for Everyday Communication",
+    materials: "12 Materials",
+    progress: 80,
+    type: "Course",
+    image: "https://via.placeholder.com/60x60.png?text=SL"
+  },
+  {
+    title: "Visual Storytelling for Deaf Learners",
+    materials: "10 Materials",
+    progress: 30,
+    type: "Course",
+    image: "https://via.placeholder.com/60x60.png?text=VS"
+  }
+];
+
+const allMaterials = [
+  {
+    title: "5 Steps to Enhance Deaf-Friendly UX",
+    type: "Quiz",
+    urgent: true,
+    points: "20pts",
+    image: "https://via.placeholder.com/400x140.png?text=UX"
+  },
+  {
+    title: "10 Visual Accessibility Principles",
+    type: "Page",
+    progress: 40,
+    urgent: false,
+    image: "https://via.placeholder.com/400x140.png?text=VA"
+  },
+  {
+    title: "Inclusive Learning Design Path",
+    type: "Learning Path",
+    urgent: false,
+    image: "https://via.placeholder.com/400x140.png?text=LD"
+  },
+  {
+    title: "Mastering Captioned Video Content",
+    type: "Course",
+    progress: 50,
+    urgent: false,
+    image: "https://via.placeholder.com/400x140.png?text=CV"
+  }
+];
+
+export default function App() {
+  return (
+    <ScrollView style={styles.container}>
+      {/* Header */}
+      <View style={styles.headerWrapper}>
+        <Text style={styles.header}>My Learning</Text>
+        <View style={styles.headerUnderline} />
+      </View>
+
+      {/* Continue Learning */}
+      <Text style={styles.sectionTitle}>Continue Learning</Text>
+      {courses.map((course, index) => (
+        <View key={index} style={styles.courseCard}>
+          <Image source={{ uri: course.image }} style={styles.courseImage} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.materialsText}>{course.materials}</Text>
+            <Text style={styles.courseTitle}>{course.title}</Text>
+            <View style={styles.progressBarBackground}>
+              <View style={[styles.progressBarFill, { width: `${course.progress}%` }]} />
+            </View>
+            <Text style={styles.progressText}>{course.progress}%</Text>
+          </View>
+          <TouchableOpacity style={styles.continueBtn}>
+            <Text style={styles.continueText}>Continue</Text>
+          </TouchableOpacity>
+        </View>
+      ))}
+
+      {/* All Materials */}
+      <Text style={styles.sectionTitle}>All Materials</Text>
+      <View style={styles.materialGrid}>
+        {allMaterials.map((item, i) => (
+          <View key={i} style={styles.materialCard}>
+            <Image source={{ uri: item.image }} style={styles.materialImage} />
+            <View style={styles.materialContent}>
+              <Text style={styles.materialTitle}>{item.title}</Text>
+              {item.progress !== undefined && (
+                <>
+                  <View style={styles.progressBarBackground}>
+                    <View style={[styles.progressBarFill, { width: `${item.progress}%` }]} />
+                  </View>
+                  <Text style={styles.progressText}>{item.progress}%</Text>
+                </>
+              )}
+              {item.points && <Text style={styles.points}>{item.points}</Text>}
+              <TouchableOpacity style={styles.actionBtn}>
+                <Text style={styles.actionText}>
+                  {item.type === "Quiz" ? "View" : item.progress ? "Continue" : "Start"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { padding: 16, backgroundColor: "#fff" },
+
+  // Centered header with underline
+  headerWrapper: { alignItems: "center", marginBottom: 12 },
+  header: { 
+    fontSize: 24, 
+    fontWeight: "bold", 
+    color: colors.black, 
+    fontFamily: "Nexa Bold", 
+    textAlign: "center" 
+  },
+  headerUnderline: {
+    marginTop: 4,
+    width: 50,
+    height: 3,
+    backgroundColor: colors.primary,
+    borderRadius: 2
+  },
+
+  sectionTitle: { 
+    fontSize: 18, 
+    fontWeight: "600", 
+    marginVertical: 8, 
+    color: colors.black, 
+    fontFamily: "Nexa Regular" 
+  },
+
+  // Continue Learning Card
+  courseCard: {
+    flexDirection: "row",
+    backgroundColor: "#fff",
+    padding: 12,
+    borderRadius: 12,
+    alignItems: "center",
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.primary
+  },
+  courseImage: { width: 60, height: 60, borderRadius: 8, marginRight: 10 },
+  materialsText: { fontSize: 12, color: "#777", fontFamily: "Nexa Light" },
+  courseTitle: { fontSize: 15, fontWeight: "bold", marginVertical: 4, color: colors.black, fontFamily: "Nexa Bold" },
+  progressBarBackground: { height: 6, backgroundColor: colors.tertiary, borderRadius: 4 },
+  progressBarFill: { height: 6, backgroundColor: colors.primary, borderRadius: 4 },
+  progressText: { fontSize: 12, marginTop: 4, color: "#555", fontFamily: "Nexa Thin" },
+  continueBtn: {
+    backgroundColor: colors.primary,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 6,
+    marginLeft: 8
+  },
+  continueText: { fontWeight: "bold", color: "#fff", fontFamily: "Nexa Regular" },
+
+  // All Materials
+  materialGrid: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" },
+  materialCard: {
+    width: "48%",
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: colors.primary,
+    overflow: "hidden" // ensures image corners are clipped
+  },
+  materialImage: {
+    width: "100%",
+    height: 120,
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12
+  },
+  materialContent: { padding: 12 },
+  materialTitle: { fontSize: 14, fontWeight: "bold", marginBottom: 6, color: colors.black, fontFamily: "Nexa Bold" },
+  points: { fontSize: 12, color: "#888", marginVertical: 4, fontFamily: "Nexa Light" },
+  actionBtn: {
+    backgroundColor: colors.primary,
+    paddingVertical: 6,
+    borderRadius: 6,
+    alignItems: "center",
+    marginTop: 6
+  },
+  actionText: { color: "#fff", fontWeight: "bold", fontFamily: "Nexa Regular" }
+});
